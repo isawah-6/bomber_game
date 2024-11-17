@@ -121,7 +121,7 @@ class gameClass:
     def __init__(self, windowWidth, windowHeight, fps):
         pygame.init()
         pygame.mixer.init()
-        pygame.mixer.music.load("L80ETC.mp3")
+        pygame.mixer.music.load("assets/sounds/L80ETC.mp3")
         pygame.mixer.music.set_volume(0.7)
         pygame.mixer.music.play()
         self.windowWidth = windowWidth
@@ -133,9 +133,9 @@ class gameClass:
         self.scoreRect = self.scoreCounter.get_rect()
         self.scoreRect.center = (80,30)
         self.surface = pygame.display.set_mode((windowWidth,windowHeight))
-        self.background = pygame.image.load("bliss.png").convert()
-        self.loseScreen = pygame.image.load("wasted.png").convert_alpha()
-        self.stoneWall = pygame.image.load("stoneWall.png").convert()
+        self.background = pygame.image.load("assets/images/bliss.png").convert()
+        self.loseScreen = pygame.image.load("assets/images/wasted.png").convert_alpha()
+        self.stoneWall = pygame.image.load("assets/images/stoneWall.png").convert()
         self.explosions = []
         self.bgColor = (0,0,0)
         self.player = actor(windowWidth/2, windowHeight-120, 7)
@@ -189,7 +189,7 @@ class gameClass:
     
     def loseGame(self):
         pygame.mixer.music.stop()
-        pygame.mixer.music.load("gta5wasted.mp3")
+        pygame.mixer.music.load("assets/sounds/gta5wasted.mp3")
         pygame.mixer.music.play()
         self.gameLose = True
 
@@ -203,7 +203,7 @@ class gameClass:
         self.gameloopDelaySpawn = 280
         self.gameLose=False
         pygame.mixer.music.stop()
-        pygame.mixer.music.load("L80ETC.mp3")
+        pygame.mixer.music.load("assets/sounds/L80ETC.mp3")
         pygame.mixer.music.play()
         for enemy in self.enemies:
             self.enemies.remove(enemy)
@@ -283,7 +283,7 @@ class explosion:
     def __init__(self, x, y) -> None:
         self.x = x
         self.y = y
-        self.img = pygame.image.load("explosion.png").convert_alpha()
+        self.img = pygame.image.load("assets/images/explosion.png").convert_alpha()
         self.lingerDuration = 5
 
     def decDuration(self): 
