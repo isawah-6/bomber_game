@@ -78,10 +78,16 @@ class actor:
 
     def getWidth(self):
         return self.width
-    
+
+    def setWidth(self, pixels):
+        self.width = pixels
+
     def getHeight(self):
         return self.height
-    
+
+    def setHeight(self, pixels):
+        self.height = pixels
+
     def getMoveSpeed(self):
         return self.movespeed
 
@@ -121,6 +127,9 @@ class actor:
     def setImage(self, image):
         self.image = image
 
+    def getImage(self):
+        return self.image
+
 class gameClass:
     def __init__(self, windowWidth, windowHeight, fps):
         pygame.init()
@@ -143,7 +152,7 @@ class gameClass:
         self.bomb = pygame.image.load("assets/images/bomb.png").convert_alpha()
         self.explosions = []
         self.bgColor = (0,0,0)
-        self.player = actor(windowWidth/2, windowHeight-120, 7)
+        self.player = actor(windowWidth/2, windowHeight-100, 7)
         self.player.setColor((255,0,0))
         self.nmOfEnemies=10
         self.enemies = []
@@ -156,6 +165,9 @@ class gameClass:
             newActor = actor(0,-60,random.randint(3,15))
             newActor.setX(random.randint(0, self.windowWidth - newActor.getWidth()))
             newActor.setColor((255,255,0))
+            newActor.setImage(self.bomb)
+            newActor.setWidth(self.bomb.get_width())
+            newActor.setHeight(self.bomb.get_height())
             self.enemies.append(newActor)
             self.randomDelay()
             self.gameloopCounter=0
@@ -210,8 +222,9 @@ class gameClass:
         pygame.mixer.music.stop()
         pygame.mixer.music.load("assets/sounds/L80ETC.mp3")
         pygame.mixer.music.play()
-        for enemy in self.enemies:
-            self.enemies.remove(enemy)
+        self.enemies.clear()
+        #for enemy in self.enemies:
+        #    self.enemies.remove(enemy)
     
     def moveActorLeft(self, actor):
         if actor.getX() > 0:
@@ -238,7 +251,11 @@ class gameClass:
 
     def drawEnemies(self):
         for enemy in self.enemies:
-            enemy.setRect(pygame.draw.rect(self.surface, enemy.getColor(), pygame.Rect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight())))
+            if enemy.getImage() is not None:
+                enemy.setRect(pygame.Rect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight()))
+                self.surface.blit(enemy.getImage(), enemy.getRect())
+            else:
+                enemy.setRect(pygame.draw.rect(self.surface, enemy.getColor(), pygame.Rect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight())))
 
     def checkCollision(actor1, actor2):
         if actor1.getX() < actor2.getX2() and actor1.getX2() > actor2.getX() and actor1.getY() < actor2.getY2() and actor1.getY2() > actor2.getY():
