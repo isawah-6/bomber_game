@@ -61,6 +61,7 @@ class actor:
         self.width = 60
         self.height = 60
         self.color = (0,0,0)
+        self.image = None
         self.rect = pygame.Rect(self.posX, self.posY, self.width, self.height)
 
     def getX(self):
@@ -117,6 +118,9 @@ class actor:
     def setRect(self, rect):
         self.rect = rect
 
+    def setImage(self, image):
+        self.image = image
+
 class gameClass:
     def __init__(self, windowWidth, windowHeight, fps):
         pygame.init()
@@ -136,6 +140,7 @@ class gameClass:
         self.background = pygame.image.load("assets/images/bliss.png").convert()
         self.loseScreen = pygame.image.load("assets/images/wasted.png").convert_alpha()
         self.stoneWall = pygame.image.load("assets/images/stoneWall.png").convert()
+        self.bomb = pygame.image.load("assets/images/bomb.png").convert_alpha()
         self.explosions = []
         self.bgColor = (0,0,0)
         self.player = actor(windowWidth/2, windowHeight-120, 7)
