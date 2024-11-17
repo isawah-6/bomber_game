@@ -178,8 +178,12 @@ class gameClass:
 
 
     def drawActor(self, actor):
-        return pygame.draw.rect(self.surface, actor.color, pygame.Rect(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()))
-    
+        if actor.getImage() is not None:
+            actor.setRect(pygame.Rect(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight()))
+            self.surface.blit(actor.getImage(), actor.getRect())
+        else:
+            actor.setRect(pygame.draw.rect(self.surface, actor.getColor(), pygame.Rect(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight())))
+       
     def drawScore(self):
         self.scoreCounter = self.font.render('Score: ' + str(self.score), True, (255,255,255), (0,0,0))
         self.surface.blit(self.scoreCounter, self.scoreRect)
@@ -251,11 +255,7 @@ class gameClass:
 
     def drawEnemies(self):
         for enemy in self.enemies:
-            if enemy.getImage() is not None:
-                enemy.setRect(pygame.Rect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight()))
-                self.surface.blit(enemy.getImage(), enemy.getRect())
-            else:
-                enemy.setRect(pygame.draw.rect(self.surface, enemy.getColor(), pygame.Rect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight())))
+            enemy.setRect(self.drawActor(enemy))
 
     def checkCollision(actor1, actor2):
         if actor1.getX() < actor2.getX2() and actor1.getX2() > actor2.getX() and actor1.getY() < actor2.getY2() and actor1.getY2() > actor2.getY():
